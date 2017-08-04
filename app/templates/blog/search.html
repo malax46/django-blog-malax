@@ -1,0 +1,104 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+
+{% block content %}
+        <!-- Page Content -->
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <!-- Blog Entries -->
+{% if article_list %}
+
+                        {% load paginate_tags %}
+                        {% paginate article_list 5 %}
+                        {% for article in article_list %}
+                        <div class="blog medium-thumbnail margin-bottom-30px">
+                            <!-- Blog Post -->
+                            <article class="entry-post">
+                                <header class="entry-header">
+                                    <h2 class="entry-title"><a href="{% url 'app:detail' article.pk %}">{{ article.title }}</a></h2>
+                                    <div class="meta-line clearfix">
+                                        <div class="meta-author-category pull-left">
+                                            <span class="post-author">Автор: <a href="#">{{ article.user }}</a></span>
+                                            <span class="post-category">Категория: <a href="{% url 'app:category' article.category.pk %}">{{ article.category }}</a></span>
+                                        </div>
+                                        <div class="meta-tag-comment pull-right">
+
+                                    <span class="post-tags">
+                                            {% for tag in article.tags.all %}
+                                            <i class="fa fa-tag"></i>
+                                                <a href="{% url 'app:tag' tag.pk %}">{{ tag.name }}</a>, 
+                                             {% endfor %}   
+                                    </span> 
+                                            
+
+                                            <span class="post-comment"><i class="fa fa-eye" aria-hidden="true"></i> Просмотры: {{ article.views }}</span>
+
+
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="entry-content clearfix">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <figure class="featured-image">
+                                                <a href="{% url 'app:detail' article.pk %}">
+                                                    <div class="post-date-info clearfix"><span class="post-year">{{ article.created_time }}</span></div>
+                                                    {% if article.image %}
+                                                            <img src="{{ article.image.url}}" class="img-responsive" alt="featured-image" />
+                                                    {% endif %}
+                                                </a>
+                                            </figure>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="excerpt">
+                                                {{ article.description }} ...
+                                                <div class="read-more">
+                                                    <a href="{% url 'app:detail' article.pk %}" class="btn btn-primary">Подробнее >>> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- End Blog Post -->
+                            <hr />
+
+                        </div>
+                        <!-- End Blog Entries -->
+                        {% endfor %}
+            {% else %}
+                <h3>Ничего не найдено</h3>
+            {% endif %}
+                        <!-- Pagination -->
+                        {% include 'blog/pagination.html' %}
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Sidebar -->
+                        <!-- Search Form -->
+                        <div class="widget">
+                <form action="/search/" method="get">
+                    <div class="input-group">
+                        <input type="text" name="search_for" class="form-control" placeholder="Поиск...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
+                    </div>
+                </form>
+                        </div>
+                        <!-- End Search Form -->
+                        {% include "blog/category.html" %}
+
+
+                        <!-- End Sidebar -->
+                    </div>
+                </div>
+            </div>        
+        <!-- End Page Content -->
+
+{% endblock content %}
+
+

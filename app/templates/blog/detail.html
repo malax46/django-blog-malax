@@ -1,0 +1,138 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+
+{% load blog_tags %}
+{% block content %}      
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <!-- Blog Single -->
+                        <div class="blog single full-thumbnail">
+                            <!-- Blog Post -->
+                            <article class="entry-post">
+                                <header class="entry-header">
+                                    <h2 class="entry-title">
+                                    <a href="{% url 'app:detail' article.pk %}">{{ article.title }}</a>
+                                </h2>
+                                    <div class="meta-line clearfix">
+                                        <div class="meta-author-category pull-left">
+                                            <span class="post-author">Автор: <a href="{%  url 'app:about' %}">{{ article.user }}</a></span>
+                                            <span class="post-category">Категория: <a href="{% url 'app:category' article.category.pk %}">{{ article.category }}</a></span>
+                                        </div>
+                                        <div class="meta-tag-comment pull-right">
+                                    <span class="post-tags">
+                                            {% for tag in article.tags.all %}
+                                            <i class="fa fa-tag"></i>
+                                                <a href="{% url 'app:tag' tag.pk %}">{{ tag.name }}</a>, 
+                                             {% endfor %}   
+                                    </span> 
+                                            <span class="post-comment"><i class="fa fa-eye" aria-hidden="true"></i> Просмотры: {{ article.views }}</span>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="entry-content clearfix">
+                                    <figure class="featured-image">
+                                        <div class="post-date-info clearfix"><span class="post-year">{{ article.created_time }}</span></div>
+                                            {% if article.image %}
+                                                 <img src="{{ article.image.url}}" class="img-responsive" alt="featured-image" />
+                                            {% endif %}
+                                    </figure>
+
+                                    <div class="box">
+                                        {{ article.body | safe}}
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- End Blog Post -->
+                            <hr>
+                            <!-- Social Sharing -->
+                            <div class="social-sharing clearfix">
+                                <h3 class="section-heading pull-left">Рассказать друзьям: </h3>
+                                <ul class="list-inline sharing-tools">
+                                    <li><a href="#" class="vk-bg"><i class="fa fa-vk"></i></a></li>
+                                    <li><a href="#" class="twitter-bg"><i class="fa fa-twitter"></i></a></li>
+                                </ul>
+                            </div>
+                            <!-- End Social Sharing -->
+                            <hr>
+                            <!-- Author Info -->
+                            <section class="author-info">
+                                <h3 class="section-heading">Об авторе:</h3>
+                                <div class="media">
+                                    <a href="{%  url 'app:about' %}" class="media-left">
+                                        <img src="{% static "img/cropped-100-100-10711.png" %}" class="img-circle" alt="Avatar">
+                                    </a>
+                                    <div class="media-body">
+                                        <a href="{%  url 'app:about' %}" class="author-name">Малахов Сергей</a>
+                                        <p>Администратор сайта</p>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- End Author Info -->
+                            <hr>
+                            <!-- Related Post -->
+                            <section>
+                                <h3 class="section-heading">Последние статьи</h3>
+                                <ul class="list-unstyled related-post-list row ">
+
+                                    {% get_recent_posts as recent_post_list %}
+                                    {% for post in recent_post_list %}
+                                    <li class="col-md-4">
+                                        <a href="{% url 'app:detail' post.pk %}">
+                                         {% if post.image %}
+                                            <img src="{{ post.image.url}}" class="img-thumbnail"  alt="Последние опубликованные посты" style="width: 200px; height: 200px;">
+                                            {% endif %}
+                                        </a>
+                                        <a href="{% url 'app:detail' post.pk %}" class="post-title">{{ post.title }}</a>
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+                            </section>
+                            <!-- End Related Post -->
+                            <hr>
+
+
+                            <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://kurskmed.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                        </div>
+                        <!-- End Blog Single -->
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Sidebar -->
+                        <!-- Search Form -->
+                        <div class="widget">
+                            {% include "blog/search_form.html" %}
+                        </div>
+                        <!-- End Search Form -->
+
+                        {% include "blog/category.html" %}
+
+                        <!-- End Sidebar -->
+                    
+                </div>
+            </div>
+        </div>
+        <!-- End Page Content -->
+{% endblock content %}

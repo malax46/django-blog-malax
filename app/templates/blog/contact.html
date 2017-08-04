@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+
+                  
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <!-- Blog Entries -->
+
+Обратная связь:
+<form role="form" action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" id="form-submit" class="btn btn-primary btn-lg pull-right ">Написать</button>
+</form>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Sidebar -->
+                        <!-- Search Form -->
+                        <div class="widget">
+                            {% include "blog/search_form.html" %}
+                        </div>
+                        <!-- End Search Form -->
+                        {% include "blog/category.html" %}
+
+
+                        <!-- End Sidebar -->
+                    </div>
+                </div>
+            </div>        
+        <!-- End Page Content -->
+
+
+
+{% endblock content %}
+
+

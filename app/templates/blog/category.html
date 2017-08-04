@@ -1,0 +1,93 @@
+{% load blog_tags %}
+                       
+                        <!-- Categories -->
+                        <div class="widget">
+                        {% get_categories as category_list %}
+                            <h4 class="widget-title">Категории:</h4>
+                            <ul class="nav nav-pills nav-stacked">
+                            {% for category in category_list %}
+                                <li><a href="{% url 'app:category' category.pk %}">{{ category.name }} <span class="badge">{{ category.num_posts }}</span></a></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- End Categories -->
+
+                        
+                        <!-- Tabbed Content -->
+                        <div class="widget">
+                            <div class="tabpanel">
+                                <!-- nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#content-popular" aria-controls="content-popular" role="tab" data-toggle="tab">Популярные</a></li>
+                                    <li role="presentation"><a href="#content-recents" aria-controls="content-recents" role="tab" data-toggle="tab">Последние</a></li>
+                                </ul>
+                                <!-- end nav tabs -->
+                                <!-- tab panes -->
+                                <div class="tab-content">
+                                    <div id="content-popular" class="tab-pane fade in active" role="tabpanel">
+                                    {% get_popular_posts as popular_post_list %}
+                                        <ul class="list-unstyled blogposts popular">
+                                        {% for post in popular_post_list %}
+                                            <li>
+                                                <h4 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                                                <span class="text-muted">{{ post.created_time }} | {{ post.user }}</span>
+                                            </li>
+                                        {% endfor %}
+                                        </ul>
+                                    </div>
+                            <div id="content-recents" class="tab-pane fade" role="tabpanel">
+                                        {% get_recent_posts as recent_post_list %}
+                                        <ul class="list-unstyled blogposts latest">
+                                        {% for post in recent_post_list %}
+                                            <li>
+                                                <h4 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                                                <span class="text-muted">{{ post.created_time }} | {{ post.user }}</span>
+                                            </li>
+                                        {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- end tab panes -->
+                            </div>
+                        </div>
+                        <!-- End Tabbed Content -->
+                        <!-- Tags -->
+                        <div class="widget">
+                            <h4 class="widget-title">Облако тэгов:</h4>
+                            <ul class="list-inline tag-list">
+                            {% get_tags as tag_list %}
+                            {% for tag in tag_list %}
+                                <li><a href="{% url 'app:tag' tag.pk %}">{{ tag.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- End Tags -->
+
+
+
+                       <div class="widget">
+                            <h4 class="widget-title">Архив:</h4>
+                    {% archives as date_list %}
+                    <ul >
+                        {% for date in date_list %}
+                            <li>
+                                <a href="{% url 'app:archives' date.year date.month %}">{{ date.year }}
+                                    год {{ date.month|date:"Y-m-d" }} </a>
+                            </li>
+                        {% empty %}
+                            Нет данных в архиве！
+                        {% endfor %}
+                    </ul>
+                    </div>
+
+
+                        <!-- Text Widget -->
+                        <div class="widget">
+                            <h4 class="widget-title">О блоге</h4>
+                            <p> Добро пожаловать на страницы моего блога.</p>
+                            <p> Я не претендую на новаторство и гениальные идеи, здесь просто будут заметки про системое администрирование и программирование. 
+                            По мере моего развития и технологий, данный блог тоже будет развиваться</p>
+                        </div>
+                        <!-- End Text Widget -->
+                        <!-- End Sidebar -->
+                    </div>

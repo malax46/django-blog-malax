@@ -1,0 +1,44 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+
+
+{% block content %}
+
+                  
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <!-- Blog Entries -->
+Страница в разработке
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Sidebar -->
+                        <!-- Search Form -->
+                        <div class="widget">
+                            <form action="#" class="form-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Поиск...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button">Найти</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- End Search Form -->
+                        {% include "blog/category.html" %}
+
+
+                        <!-- End Sidebar -->
+                    </div>
+                </div>
+            </div>        
+        <!-- End Page Content -->
+
+
+
+{% endblock content %}
+
+
